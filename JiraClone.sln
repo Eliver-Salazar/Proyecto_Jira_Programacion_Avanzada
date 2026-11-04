@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraClone_EF6.Web", "JiraClone_EF6.Web\JiraClone_EF6.Web.csproj", "{9A045073-4FB4-458C-9E1B-F75C482E0E25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraClone_EF6.Domain", "JiraClone_EF6.Domain\JiraClone_EF6.Domain.csproj", "{DF5AB570-BA5D-4FFE-AF3A-667C9B179E75}"
