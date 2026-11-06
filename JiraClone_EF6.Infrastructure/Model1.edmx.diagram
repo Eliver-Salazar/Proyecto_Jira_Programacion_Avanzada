@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c0b941b2e3a64f8cb7f3e849c644bd85" Name="Diagram1" ZoomLevel="52">
+        <EntityTypeShape EntityType="JiraCloneDBModel.BoardColumns" Width="1.5" PointX="5.25" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.BoardColumnStatuses" Width="1.5" PointX="3" PointY="35.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.Boards" Width="1.5" PointX="3" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.IssueAttachments" Width="1.5" PointX="5.25" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.IssueBoardPositions" Width="1.5" PointX="9" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.IssueComments" Width="1.5" PointX="5.25" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.IssueHistory" Width="1.5" PointX="5.25" PointY="31.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.IssueLabels" Width="1.5" PointX="11" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.IssuePriorities" Width="1.5" PointX="0.75" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.IssueRelations" Width="1.5" PointX="5.25" PointY="35.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.Issues" Width="1.5" PointX="3" PointY="25.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.IssueTypes" Width="1.5" PointX="0.75" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.IssueWatchers" Width="1.5" PointX="5.25" PointY="38.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.IssueWorkLogs" Width="1.5" PointX="5.25" PointY="41.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.Labels" Width="1.5" PointX="3" PointY="46.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.Notifications" Width="1.5" PointX="5.25" PointY="44.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.ProjectActivity" Width="1.5" PointX="3" PointY="49.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.ProjectInvitations" Width="1.5" PointX="3" PointY="53.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.ProjectIssueCounters" Width="1.5" PointX="3" PointY="57" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.ProjectMembers" Width="1.5" PointX="3" PointY="59.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.Projects" Width="1.5" PointX="0.75" PointY="26.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.ProjectSettings" Width="1.5" PointX="3" PointY="62.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.SprintIssues" Width="1.5" PointX="9" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.Sprints" Width="1.5" PointX="18.75" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.WorkflowStatuses" Width="1.5" PointX="0.75" PointY="35.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="JiraCloneDBModel.WorkflowTransitions" Width="1.5" PointX="6" PointY="27.125" IsExpanded="true" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_BoardColumns_Boards" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_BoardColumnStatuses_WorkflowStatuses" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_Boards_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_IssueAttachments_Issues" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_IssueComments_Issues" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_IssueHistory_Issues" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_Issues_IssuePriorities" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_IssueRelations_SourceIssue" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_IssueRelations_TargetIssue" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_Issues_IssueTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_Issues_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_Issues_WorkflowStatuses" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_IssueWatchers_Issues" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_IssueWorkLogs_Issues" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_Notifications_Issues" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_Labels_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_ProjectActivity_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_ProjectInvitations_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_ProjectIssueCounters_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_ProjectMembers_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_ProjectSettings_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_WorkflowTransitions_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_WorkflowTransitions_FromStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_WorkflowTransitions_ToStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_BoardColumnStatuses_BoardColumns_EF6" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_IssueBoardPositions_Boards_EF6" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_Sprints_Boards_EF6" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_IssueBoardPositions_Issues_EF6" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_IssueLabels_Issues_EF6" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_IssueLabels_Labels_EF6" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_ProjectActivity_Issues_EF6" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_SprintIssues_Issues_EF6" />
+        <AssociationConnector Association="JiraCloneDBModel.FK_SprintIssues_Sprints_EF6" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
