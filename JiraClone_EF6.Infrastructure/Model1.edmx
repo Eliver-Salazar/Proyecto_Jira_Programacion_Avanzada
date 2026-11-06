@@ -1,0 +1,2226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="JiraCloneDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BoardColumns">
+          <Key>
+            <PropertyRef Name="BoardColumnId" />
+          </Key>
+          <Property Name="BoardColumnId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BoardId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Position" Type="int" Nullable="false" />
+          <Property Name="WipLimit" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BoardColumnStatuses">
+          <Key>
+            <PropertyRef Name="BoardColumnStatusId" />
+          </Key>
+          <Property Name="BoardColumnStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BoardId" Type="int" Nullable="false" />
+          <Property Name="BoardColumnId" Type="int" Nullable="false" />
+          <Property Name="WorkflowStatusId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Boards">
+          <Key>
+            <PropertyRef Name="BoardId" />
+          </Key>
+          <Property Name="BoardId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="BoardType" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueAttachments">
+          <Key>
+            <PropertyRef Name="IssueAttachmentId" />
+          </Key>
+          <Property Name="IssueAttachmentId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IssueId" Type="bigint" Nullable="false" />
+          <Property Name="UploadedByUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="OriginalFileName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="StoredFileName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="StoragePath" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="ContentType" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="FileSizeBytes" Type="bigint" Nullable="false" />
+          <Property Name="FileHashSHA256" Type="char" MaxLength="64" />
+          <Property Name="UploadedAt" Type="datetime2" Precision="3" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedAt" Type="datetime2" Precision="3" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueBoardPositions">
+          <Key>
+            <PropertyRef Name="IssueBoardPositionId" />
+          </Key>
+          <Property Name="IssueBoardPositionId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BoardId" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="IssueId" Type="bigint" Nullable="false" />
+          <Property Name="Position" Type="decimal" Precision="19" Scale="6" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime2" Precision="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueComments">
+          <Key>
+            <PropertyRef Name="IssueCommentId" />
+          </Key>
+          <Property Name="IssueCommentId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IssueId" Type="bigint" Nullable="false" />
+          <Property Name="AuthorUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime2" Precision="3" />
+          <Property Name="IsEdited" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedAt" Type="datetime2" Precision="3" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueHistory">
+          <Key>
+            <PropertyRef Name="IssueHistoryId" />
+          </Key>
+          <Property Name="IssueHistoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IssueId" Type="bigint" Nullable="false" />
+          <Property Name="ChangedByUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FieldName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="OldValue" Type="nvarchar(max)" />
+          <Property Name="NewValue" Type="nvarchar(max)" />
+          <Property Name="ChangedAt" Type="datetime2" Precision="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueLabels">
+          <Key>
+            <PropertyRef Name="IssueLabelId" />
+          </Key>
+          <Property Name="IssueLabelId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="IssueId" Type="bigint" Nullable="false" />
+          <Property Name="LabelId" Type="int" Nullable="false" />
+          <Property Name="AssignedAt" Type="datetime2" Precision="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssuePriorities">
+          <Key>
+            <PropertyRef Name="IssuePriorityId" />
+          </Key>
+          <Property Name="IssuePriorityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="PriorityLevel" Type="int" Nullable="false" />
+          <Property Name="Color" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueRelations">
+          <Key>
+            <PropertyRef Name="IssueRelationId" />
+          </Key>
+          <Property Name="IssueRelationId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SourceIssueId" Type="bigint" Nullable="false" />
+          <Property Name="TargetIssueId" Type="bigint" Nullable="false" />
+          <Property Name="RelationType" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Issues">
+          <Key>
+            <PropertyRef Name="IssueId" />
+          </Key>
+          <Property Name="IssueId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="IssueNumber" Type="int" Nullable="false" />
+          <Property Name="IssueTypeId" Type="int" Nullable="false" />
+          <Property Name="IssuePriorityId" Type="int" Nullable="false" />
+          <Property Name="WorkflowStatusId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="ReporterUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="AssigneeUserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="DueDate" Type="date" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime2" Precision="3" />
+          <Property Name="CompletedAt" Type="datetime2" Precision="3" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueTypes">
+          <Key>
+            <PropertyRef Name="IssueTypeId" />
+          </Key>
+          <Property Name="IssueTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="Icon" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueWatchers">
+          <Key>
+            <PropertyRef Name="IssueWatcherId" />
+          </Key>
+          <Property Name="IssueWatcherId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IssueId" Type="bigint" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueWorkLogs">
+          <Key>
+            <PropertyRef Name="IssueWorkLogId" />
+          </Key>
+          <Property Name="IssueWorkLogId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IssueId" Type="bigint" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="TimeSpentMinutes" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="2000" />
+          <Property Name="WorkDate" Type="datetime2" Precision="3" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime2" Precision="3" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Labels">
+          <Key>
+            <PropertyRef Name="LabelId" />
+          </Key>
+          <Property Name="LabelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Color" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Notifications">
+          <Key>
+            <PropertyRef Name="NotificationId" />
+          </Key>
+          <Property Name="NotificationId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IssueId" Type="bigint" />
+          <Property Name="NotificationType" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+          <Property Name="ReadAt" Type="datetime2" Precision="3" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectActivity">
+          <Key>
+            <PropertyRef Name="ProjectActivityId" />
+          </Key>
+          <Property Name="ProjectActivityId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IssueId" Type="bigint" />
+          <Property Name="ActivityType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectInvitations">
+          <Key>
+            <PropertyRef Name="ProjectInvitationId" />
+          </Key>
+          <Property Name="ProjectInvitationId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="InvitedByUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="InvitationToken" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+          <Property Name="ExpiresAt" Type="datetime2" Precision="3" Nullable="false" />
+          <Property Name="RespondedAt" Type="datetime2" Precision="3" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectIssueCounters">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="LastIssueNumber" Type="int" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime2" Precision="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectMembers">
+          <Key>
+            <PropertyRef Name="ProjectMemberId" />
+          </Key>
+          <Property Name="ProjectMemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProjectRole" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="JoinedAt" Type="datetime2" Precision="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectKey" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="OwnerUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime2" Precision="3" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectSettings">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="AllowIssueCreation" Type="bit" Nullable="false" />
+          <Property Name="AllowAttachments" Type="bit" Nullable="false" />
+          <Property Name="EnableSprints" Type="bit" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime2" Precision="3" />
+        </EntityType>
+        <EntityType Name="SprintIssues">
+          <Key>
+            <PropertyRef Name="SprintIssueId" />
+          </Key>
+          <Property Name="SprintIssueId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="SprintId" Type="int" Nullable="false" />
+          <Property Name="IssueId" Type="bigint" Nullable="false" />
+          <Property Name="AddedAt" Type="datetime2" Precision="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sprints">
+          <Key>
+            <PropertyRef Name="SprintId" />
+          </Key>
+          <Property Name="SprintId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="BoardId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Goal" Type="nvarchar" MaxLength="1000" />
+          <Property Name="StartDate" Type="datetime2" Precision="3" />
+          <Property Name="EndDate" Type="datetime2" Precision="3" />
+          <Property Name="StartedAt" Type="datetime2" Precision="3" />
+          <Property Name="CompletedAt" Type="datetime2" Precision="3" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+          <Property Name="RowVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkflowStatuses">
+          <Key>
+            <PropertyRef Name="WorkflowStatusId" />
+          </Key>
+          <Property Name="WorkflowStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="StatusCategory" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Color" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkflowTransitions">
+          <Key>
+            <PropertyRef Name="WorkflowTransitionId" />
+          </Key>
+          <Property Name="WorkflowTransitionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="FromStatusId" Type="int" Nullable="false" />
+          <Property Name="ToStatusId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="3" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BoardColumns_Boards">
+          <End Role="Boards" Type="Self.Boards" Multiplicity="1" />
+          <End Role="BoardColumns" Type="Self.BoardColumns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boards">
+              <PropertyRef Name="BoardId" />
+            </Principal>
+            <Dependent Role="BoardColumns">
+              <PropertyRef Name="BoardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_BoardColumnStatuses_BoardColumns' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_BoardColumnStatuses_BoardColumns" />-->
+        <Association Name="FK_BoardColumnStatuses_BoardColumns_EF6">
+          <End Role="BoardColumns" Type="Self.BoardColumns" Multiplicity="1" />
+          <End Role="BoardColumnStatuses" Type="Self.BoardColumnStatuses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BoardColumns">
+              <PropertyRef Name="BoardColumnId" />
+            </Principal>
+            <Dependent Role="BoardColumnStatuses">
+              <PropertyRef Name="BoardColumnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoardColumnStatuses_WorkflowStatuses">
+          <End Role="WorkflowStatuses" Type="Self.WorkflowStatuses" Multiplicity="1" />
+          <End Role="BoardColumnStatuses" Type="Self.BoardColumnStatuses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowStatuses">
+              <PropertyRef Name="WorkflowStatusId" />
+            </Principal>
+            <Dependent Role="BoardColumnStatuses">
+              <PropertyRef Name="WorkflowStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Boards_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Boards" Type="Self.Boards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Boards">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueAttachments_Issues">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueAttachments" Type="Self.IssueAttachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueAttachments">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_IssueBoardPositions_Boards' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_IssueBoardPositions_Boards" />-->
+        <Association Name="FK_IssueBoardPositions_Boards_EF6">
+          <End Role="Boards" Type="Self.Boards" Multiplicity="1" />
+          <End Role="IssueBoardPositions" Type="Self.IssueBoardPositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boards">
+              <PropertyRef Name="BoardId" />
+            </Principal>
+            <Dependent Role="IssueBoardPositions">
+              <PropertyRef Name="BoardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_IssueBoardPositions_Issues' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_IssueBoardPositions_Issues" />-->
+        <Association Name="FK_IssueBoardPositions_Issues_EF6">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueBoardPositions" Type="Self.IssueBoardPositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueBoardPositions">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueComments_Issues">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueComments" Type="Self.IssueComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueComments">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueHistory_Issues">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueHistory" Type="Self.IssueHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueHistory">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_IssueLabels_Issues' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_IssueLabels_Issues" />-->
+        <Association Name="FK_IssueLabels_Issues_EF6">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueLabels" Type="Self.IssueLabels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueLabels">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_IssueLabels_Labels' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_IssueLabels_Labels" />-->
+        <Association Name="FK_IssueLabels_Labels_EF6">
+          <End Role="Labels" Type="Self.Labels" Multiplicity="1" />
+          <End Role="IssueLabels" Type="Self.IssueLabels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Labels">
+              <PropertyRef Name="LabelId" />
+            </Principal>
+            <Dependent Role="IssueLabels">
+              <PropertyRef Name="LabelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueRelations_SourceIssue">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueRelations" Type="Self.IssueRelations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueRelations">
+              <PropertyRef Name="SourceIssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueRelations_TargetIssue">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueRelations" Type="Self.IssueRelations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueRelations">
+              <PropertyRef Name="TargetIssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_IssuePriorities">
+          <End Role="IssuePriorities" Type="Self.IssuePriorities" Multiplicity="1" />
+          <End Role="Issues" Type="Self.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IssuePriorities">
+              <PropertyRef Name="IssuePriorityId" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="IssuePriorityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_IssueTypes">
+          <End Role="IssueTypes" Type="Self.IssueTypes" Multiplicity="1" />
+          <End Role="Issues" Type="Self.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IssueTypes">
+              <PropertyRef Name="IssueTypeId" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="IssueTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Issues" Type="Self.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_WorkflowStatuses">
+          <End Role="WorkflowStatuses" Type="Self.WorkflowStatuses" Multiplicity="1" />
+          <End Role="Issues" Type="Self.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowStatuses">
+              <PropertyRef Name="WorkflowStatusId" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="WorkflowStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueWatchers_Issues">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueWatchers" Type="Self.IssueWatchers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueWatchers">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueWorkLogs_Issues">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueWorkLogs" Type="Self.IssueWorkLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueWorkLogs">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Labels_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Labels" Type="Self.Labels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Labels">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notifications_Issues">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="0..1" />
+          <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="Notifications">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_ProjectActivity_Issues' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_ProjectActivity_Issues" />-->
+        <Association Name="FK_ProjectActivity_Issues_EF6">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="0..1" />
+          <End Role="ProjectActivity" Type="Self.ProjectActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="ProjectActivity">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectActivity_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectActivity" Type="Self.ProjectActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectActivity">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectInvitations_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectInvitations" Type="Self.ProjectInvitations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectInvitations">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectIssueCounters_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectIssueCounters" Type="Self.ProjectIssueCounters" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectIssueCounters">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectMembers_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectMembers" Type="Self.ProjectMembers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectMembers">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectSettings_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectSettings" Type="Self.ProjectSettings" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectSettings">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_SprintIssues_Issues' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_SprintIssues_Issues" />-->
+        <Association Name="FK_SprintIssues_Issues_EF6">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="SprintIssues" Type="Self.SprintIssues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="SprintIssues">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_SprintIssues_Sprints' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_SprintIssues_Sprints" />-->
+        <Association Name="FK_SprintIssues_Sprints_EF6">
+          <End Role="Sprints" Type="Self.Sprints" Multiplicity="1" />
+          <End Role="SprintIssues" Type="Self.SprintIssues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sprints">
+              <PropertyRef Name="SprintId" />
+            </Principal>
+            <Dependent Role="SprintIssues">
+              <PropertyRef Name="SprintId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_Sprints_Boards' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_Sprints_Boards" />-->
+        <Association Name="FK_Sprints_Boards_EF6">
+          <End Role="Boards" Type="Self.Boards" Multiplicity="1" />
+          <End Role="Sprints" Type="Self.Sprints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boards">
+              <PropertyRef Name="BoardId" />
+            </Principal>
+            <Dependent Role="Sprints">
+              <PropertyRef Name="BoardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowTransitions_FromStatus">
+          <End Role="WorkflowStatuses" Type="Self.WorkflowStatuses" Multiplicity="1" />
+          <End Role="WorkflowTransitions" Type="Self.WorkflowTransitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowStatuses">
+              <PropertyRef Name="WorkflowStatusId" />
+            </Principal>
+            <Dependent Role="WorkflowTransitions">
+              <PropertyRef Name="FromStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowTransitions_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="WorkflowTransitions" Type="Self.WorkflowTransitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="WorkflowTransitions">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowTransitions_ToStatus">
+          <End Role="WorkflowStatuses" Type="Self.WorkflowStatuses" Multiplicity="1" />
+          <End Role="WorkflowTransitions" Type="Self.WorkflowTransitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowStatuses">
+              <PropertyRef Name="WorkflowStatusId" />
+            </Principal>
+            <Dependent Role="WorkflowTransitions">
+              <PropertyRef Name="ToStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="JiraCloneDBModelStoreContainer">
+          <EntitySet Name="BoardColumns" EntityType="Self.BoardColumns" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BoardColumnStatuses" EntityType="Self.BoardColumnStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Boards" EntityType="Self.Boards" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IssueAttachments" EntityType="Self.IssueAttachments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IssueBoardPositions" EntityType="Self.IssueBoardPositions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IssueComments" EntityType="Self.IssueComments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IssueHistory" EntityType="Self.IssueHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IssueLabels" EntityType="Self.IssueLabels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IssuePriorities" EntityType="Self.IssuePriorities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IssueRelations" EntityType="Self.IssueRelations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Issues" EntityType="Self.Issues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IssueTypes" EntityType="Self.IssueTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IssueWatchers" EntityType="Self.IssueWatchers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IssueWorkLogs" EntityType="Self.IssueWorkLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Labels" EntityType="Self.Labels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectActivity" EntityType="Self.ProjectActivity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectInvitations" EntityType="Self.ProjectInvitations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectIssueCounters" EntityType="Self.ProjectIssueCounters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectMembers" EntityType="Self.ProjectMembers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectSettings" EntityType="Self.ProjectSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SprintIssues" EntityType="Self.SprintIssues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sprints" EntityType="Self.Sprints" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkflowStatuses" EntityType="Self.WorkflowStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkflowTransitions" EntityType="Self.WorkflowTransitions" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BoardColumns_Boards" Association="Self.FK_BoardColumns_Boards">
+            <End Role="Boards" EntitySet="Boards" />
+            <End Role="BoardColumns" EntitySet="BoardColumns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoardColumnStatuses_BoardColumns_EF6" Association="Self.FK_BoardColumnStatuses_BoardColumns_EF6">
+            <End Role="BoardColumns" EntitySet="BoardColumns" />
+            <End Role="BoardColumnStatuses" EntitySet="BoardColumnStatuses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoardColumnStatuses_WorkflowStatuses" Association="Self.FK_BoardColumnStatuses_WorkflowStatuses">
+            <End Role="WorkflowStatuses" EntitySet="WorkflowStatuses" />
+            <End Role="BoardColumnStatuses" EntitySet="BoardColumnStatuses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Boards_Projects" Association="Self.FK_Boards_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Boards" EntitySet="Boards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueAttachments_Issues" Association="Self.FK_IssueAttachments_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueAttachments" EntitySet="IssueAttachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueBoardPositions_Boards_EF6" Association="Self.FK_IssueBoardPositions_Boards_EF6">
+            <End Role="Boards" EntitySet="Boards" />
+            <End Role="IssueBoardPositions" EntitySet="IssueBoardPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueBoardPositions_Issues_EF6" Association="Self.FK_IssueBoardPositions_Issues_EF6">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueBoardPositions" EntitySet="IssueBoardPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueComments_Issues" Association="Self.FK_IssueComments_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueComments" EntitySet="IssueComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueHistory_Issues" Association="Self.FK_IssueHistory_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueHistory" EntitySet="IssueHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueLabels_Issues_EF6" Association="Self.FK_IssueLabels_Issues_EF6">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueLabels" EntitySet="IssueLabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueLabels_Labels_EF6" Association="Self.FK_IssueLabels_Labels_EF6">
+            <End Role="Labels" EntitySet="Labels" />
+            <End Role="IssueLabels" EntitySet="IssueLabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueRelations_SourceIssue" Association="Self.FK_IssueRelations_SourceIssue">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueRelations" EntitySet="IssueRelations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueRelations_TargetIssue" Association="Self.FK_IssueRelations_TargetIssue">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueRelations" EntitySet="IssueRelations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_IssuePriorities" Association="Self.FK_Issues_IssuePriorities">
+            <End Role="IssuePriorities" EntitySet="IssuePriorities" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_IssueTypes" Association="Self.FK_Issues_IssueTypes">
+            <End Role="IssueTypes" EntitySet="IssueTypes" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_Projects" Association="Self.FK_Issues_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_WorkflowStatuses" Association="Self.FK_Issues_WorkflowStatuses">
+            <End Role="WorkflowStatuses" EntitySet="WorkflowStatuses" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueWatchers_Issues" Association="Self.FK_IssueWatchers_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueWatchers" EntitySet="IssueWatchers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueWorkLogs_Issues" Association="Self.FK_IssueWorkLogs_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueWorkLogs" EntitySet="IssueWorkLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Labels_Projects" Association="Self.FK_Labels_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Labels" EntitySet="Labels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifications_Issues" Association="Self.FK_Notifications_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="Notifications" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectActivity_Issues_EF6" Association="Self.FK_ProjectActivity_Issues_EF6">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="ProjectActivity" EntitySet="ProjectActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectActivity_Projects" Association="Self.FK_ProjectActivity_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectActivity" EntitySet="ProjectActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectInvitations_Projects" Association="Self.FK_ProjectInvitations_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectInvitations" EntitySet="ProjectInvitations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectIssueCounters_Projects" Association="Self.FK_ProjectIssueCounters_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectIssueCounters" EntitySet="ProjectIssueCounters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectMembers_Projects" Association="Self.FK_ProjectMembers_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectMembers" EntitySet="ProjectMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectSettings_Projects" Association="Self.FK_ProjectSettings_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectSettings" EntitySet="ProjectSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SprintIssues_Issues_EF6" Association="Self.FK_SprintIssues_Issues_EF6">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="SprintIssues" EntitySet="SprintIssues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SprintIssues_Sprints_EF6" Association="Self.FK_SprintIssues_Sprints_EF6">
+            <End Role="Sprints" EntitySet="Sprints" />
+            <End Role="SprintIssues" EntitySet="SprintIssues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sprints_Boards_EF6" Association="Self.FK_Sprints_Boards_EF6">
+            <End Role="Boards" EntitySet="Boards" />
+            <End Role="Sprints" EntitySet="Sprints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowTransitions_FromStatus" Association="Self.FK_WorkflowTransitions_FromStatus">
+            <End Role="WorkflowStatuses" EntitySet="WorkflowStatuses" />
+            <End Role="WorkflowTransitions" EntitySet="WorkflowTransitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowTransitions_Projects" Association="Self.FK_WorkflowTransitions_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="WorkflowTransitions" EntitySet="WorkflowTransitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowTransitions_ToStatus" Association="Self.FK_WorkflowTransitions_ToStatus">
+            <End Role="WorkflowStatuses" EntitySet="WorkflowStatuses" />
+            <End Role="WorkflowTransitions" EntitySet="WorkflowTransitions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="JiraCloneDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BoardColumns">
+          <Key>
+            <PropertyRef Name="BoardColumnId" />
+          </Key>
+          <Property Name="BoardColumnId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BoardId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Position" Type="Int32" Nullable="false" />
+          <Property Name="WipLimit" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Boards" Relationship="Self.FK_BoardColumns_Boards" FromRole="BoardColumns" ToRole="Boards" />
+          <NavigationProperty Name="BoardColumnStatuses" Relationship="JiraCloneDBModel.FK_BoardColumnStatuses_BoardColumns_EF6" FromRole="BoardColumns" ToRole="BoardColumnStatuses" />
+        </EntityType>
+        <EntityType Name="BoardColumnStatuses">
+          <Key>
+            <PropertyRef Name="BoardColumnStatusId" />
+          </Key>
+          <Property Name="BoardColumnStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BoardId" Type="Int32" Nullable="false" />
+          <Property Name="BoardColumnId" Type="Int32" Nullable="false" />
+          <Property Name="WorkflowStatusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="WorkflowStatuses" Relationship="Self.FK_BoardColumnStatuses_WorkflowStatuses" FromRole="BoardColumnStatuses" ToRole="WorkflowStatuses" />
+          <NavigationProperty Name="BoardColumns" Relationship="JiraCloneDBModel.FK_BoardColumnStatuses_BoardColumns_EF6" FromRole="BoardColumnStatuses" ToRole="BoardColumns" />
+        </EntityType>
+        <EntityType Name="Boards">
+          <Key>
+            <PropertyRef Name="BoardId" />
+          </Key>
+          <Property Name="BoardId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BoardType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RowVersion" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="BoardColumns" Relationship="Self.FK_BoardColumns_Boards" FromRole="Boards" ToRole="BoardColumns" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Boards_Projects" FromRole="Boards" ToRole="Projects" />
+          <NavigationProperty Name="IssueBoardPositions" Relationship="JiraCloneDBModel.FK_IssueBoardPositions_Boards_EF6" FromRole="Boards" ToRole="IssueBoardPositions" />
+          <NavigationProperty Name="Sprints" Relationship="JiraCloneDBModel.FK_Sprints_Boards_EF6" FromRole="Boards" ToRole="Sprints" />
+        </EntityType>
+        <EntityType Name="IssueAttachments">
+          <Key>
+            <PropertyRef Name="IssueAttachmentId" />
+          </Key>
+          <Property Name="IssueAttachmentId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IssueId" Type="Int64" Nullable="false" />
+          <Property Name="UploadedByUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OriginalFileName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StoredFileName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StoragePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContentType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FileSizeBytes" Type="Int64" Nullable="false" />
+          <Property Name="FileHashSHA256" Type="String" MaxLength="64" FixedLength="true" Unicode="false" />
+          <Property Name="UploadedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
+          <Property Name="RowVersion" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_IssueAttachments_Issues" FromRole="IssueAttachments" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="IssueBoardPositions">
+          <Key>
+            <PropertyRef Name="IssueBoardPositionId" />
+          </Key>
+          <Property Name="IssueBoardPositionId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BoardId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="IssueId" Type="Int64" Nullable="false" />
+          <Property Name="Position" Type="Decimal" Precision="19" Scale="6" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Boards" Relationship="JiraCloneDBModel.FK_IssueBoardPositions_Boards_EF6" FromRole="IssueBoardPositions" ToRole="Boards" />
+          <NavigationProperty Name="Issues" Relationship="JiraCloneDBModel.FK_IssueBoardPositions_Issues_EF6" FromRole="IssueBoardPositions" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="IssueComments">
+          <Key>
+            <PropertyRef Name="IssueCommentId" />
+          </Key>
+          <Property Name="IssueCommentId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IssueId" Type="Int64" Nullable="false" />
+          <Property Name="AuthorUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="IsEdited" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
+          <Property Name="RowVersion" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_IssueComments_Issues" FromRole="IssueComments" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="IssueHistory">
+          <Key>
+            <PropertyRef Name="IssueHistoryId" />
+          </Key>
+          <Property Name="IssueHistoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IssueId" Type="Int64" Nullable="false" />
+          <Property Name="ChangedByUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FieldName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OldValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NewValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ChangedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_IssueHistory_Issues" FromRole="IssueHistory" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="IssueLabels">
+          <Key>
+            <PropertyRef Name="IssueLabelId" />
+          </Key>
+          <Property Name="IssueLabelId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="IssueId" Type="Int64" Nullable="false" />
+          <Property Name="LabelId" Type="Int32" Nullable="false" />
+          <Property Name="AssignedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Issues" Relationship="JiraCloneDBModel.FK_IssueLabels_Issues_EF6" FromRole="IssueLabels" ToRole="Issues" />
+          <NavigationProperty Name="Labels" Relationship="JiraCloneDBModel.FK_IssueLabels_Labels_EF6" FromRole="IssueLabels" ToRole="Labels" />
+        </EntityType>
+        <EntityType Name="IssuePriorities">
+          <Key>
+            <PropertyRef Name="IssuePriorityId" />
+          </Key>
+          <Property Name="IssuePriorityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PriorityLevel" Type="Int32" Nullable="false" />
+          <Property Name="Color" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_Issues_IssuePriorities" FromRole="IssuePriorities" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="IssueRelations">
+          <Key>
+            <PropertyRef Name="IssueRelationId" />
+          </Key>
+          <Property Name="IssueRelationId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SourceIssueId" Type="Int64" Nullable="false" />
+          <Property Name="TargetIssueId" Type="Int64" Nullable="false" />
+          <Property Name="RelationType" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedByUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_IssueRelations_SourceIssue" FromRole="IssueRelations" ToRole="Issues" />
+          <NavigationProperty Name="Issues1" Relationship="Self.FK_IssueRelations_TargetIssue" FromRole="IssueRelations" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="Issues">
+          <Key>
+            <PropertyRef Name="IssueId" />
+          </Key>
+          <Property Name="IssueId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="IssueNumber" Type="Int32" Nullable="false" />
+          <Property Name="IssueTypeId" Type="Int32" Nullable="false" />
+          <Property Name="IssuePriorityId" Type="Int32" Nullable="false" />
+          <Property Name="WorkflowStatusId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReporterUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AssigneeUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DueDate" Type="DateTime" Precision="0" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="CompletedAt" Type="DateTime" Precision="3" />
+          <Property Name="RowVersion" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="IssueAttachments" Relationship="Self.FK_IssueAttachments_Issues" FromRole="Issues" ToRole="IssueAttachments" />
+          <NavigationProperty Name="IssueComments" Relationship="Self.FK_IssueComments_Issues" FromRole="Issues" ToRole="IssueComments" />
+          <NavigationProperty Name="IssueHistory" Relationship="Self.FK_IssueHistory_Issues" FromRole="Issues" ToRole="IssueHistory" />
+          <NavigationProperty Name="IssuePriorities" Relationship="Self.FK_Issues_IssuePriorities" FromRole="Issues" ToRole="IssuePriorities" />
+          <NavigationProperty Name="IssueRelations" Relationship="Self.FK_IssueRelations_SourceIssue" FromRole="Issues" ToRole="IssueRelations" />
+          <NavigationProperty Name="IssueRelations1" Relationship="Self.FK_IssueRelations_TargetIssue" FromRole="Issues" ToRole="IssueRelations" />
+          <NavigationProperty Name="IssueTypes" Relationship="Self.FK_Issues_IssueTypes" FromRole="Issues" ToRole="IssueTypes" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Issues_Projects" FromRole="Issues" ToRole="Projects" />
+          <NavigationProperty Name="WorkflowStatuses" Relationship="Self.FK_Issues_WorkflowStatuses" FromRole="Issues" ToRole="WorkflowStatuses" />
+          <NavigationProperty Name="IssueWatchers" Relationship="Self.FK_IssueWatchers_Issues" FromRole="Issues" ToRole="IssueWatchers" />
+          <NavigationProperty Name="IssueWorkLogs" Relationship="Self.FK_IssueWorkLogs_Issues" FromRole="Issues" ToRole="IssueWorkLogs" />
+          <NavigationProperty Name="Notifications" Relationship="Self.FK_Notifications_Issues" FromRole="Issues" ToRole="Notifications" />
+          <NavigationProperty Name="IssueBoardPositions" Relationship="JiraCloneDBModel.FK_IssueBoardPositions_Issues_EF6" FromRole="Issues" ToRole="IssueBoardPositions" />
+          <NavigationProperty Name="IssueLabels" Relationship="JiraCloneDBModel.FK_IssueLabels_Issues_EF6" FromRole="Issues" ToRole="IssueLabels" />
+          <NavigationProperty Name="ProjectActivity" Relationship="JiraCloneDBModel.FK_ProjectActivity_Issues_EF6" FromRole="Issues" ToRole="ProjectActivity" />
+          <NavigationProperty Name="SprintIssues" Relationship="JiraCloneDBModel.FK_SprintIssues_Issues_EF6" FromRole="Issues" ToRole="SprintIssues" />
+        </EntityType>
+        <EntityType Name="IssueTypes">
+          <Key>
+            <PropertyRef Name="IssueTypeId" />
+          </Key>
+          <Property Name="IssueTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Icon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_Issues_IssueTypes" FromRole="IssueTypes" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="IssueWatchers">
+          <Key>
+            <PropertyRef Name="IssueWatcherId" />
+          </Key>
+          <Property Name="IssueWatcherId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IssueId" Type="Int64" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_IssueWatchers_Issues" FromRole="IssueWatchers" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="IssueWorkLogs">
+          <Key>
+            <PropertyRef Name="IssueWorkLogId" />
+          </Key>
+          <Property Name="IssueWorkLogId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IssueId" Type="Int64" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeSpentMinutes" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="WorkDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="RowVersion" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_IssueWorkLogs_Issues" FromRole="IssueWorkLogs" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="Labels">
+          <Key>
+            <PropertyRef Name="LabelId" />
+          </Key>
+          <Property Name="LabelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Color" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="RowVersion" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Labels_Projects" FromRole="Labels" ToRole="Projects" />
+          <NavigationProperty Name="IssueLabels" Relationship="JiraCloneDBModel.FK_IssueLabels_Labels_EF6" FromRole="Labels" ToRole="IssueLabels" />
+        </EntityType>
+        <EntityType Name="Notifications">
+          <Key>
+            <PropertyRef Name="NotificationId" />
+          </Key>
+          <Property Name="NotificationId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IssueId" Type="Int64" />
+          <Property Name="NotificationType" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" />
+          <Property Name="ReadAt" Type="DateTime" Precision="3" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_Notifications_Issues" FromRole="Notifications" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="ProjectActivity">
+          <Key>
+            <PropertyRef Name="ProjectActivityId" />
+          </Key>
+          <Property Name="ProjectActivityId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IssueId" Type="Int64" />
+          <Property Name="ActivityType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_ProjectActivity_Projects" FromRole="ProjectActivity" ToRole="Projects" />
+          <NavigationProperty Name="Issues" Relationship="JiraCloneDBModel.FK_ProjectActivity_Issues_EF6" FromRole="ProjectActivity" ToRole="Issues" />
+        </EntityType>
+        <EntityType Name="ProjectInvitations">
+          <Key>
+            <PropertyRef Name="ProjectInvitationId" />
+          </Key>
+          <Property Name="ProjectInvitationId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="InvitedByUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="InvitationToken" Type="Guid" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpiresAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RespondedAt" Type="DateTime" Precision="3" />
+          <Property Name="RowVersion" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_ProjectInvitations_Projects" FromRole="ProjectInvitations" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="ProjectIssueCounters">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="LastIssueNumber" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_ProjectIssueCounters_Projects" FromRole="ProjectIssueCounters" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="ProjectMembers">
+          <Key>
+            <PropertyRef Name="ProjectMemberId" />
+          </Key>
+          <Property Name="ProjectMemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProjectRole" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="JoinedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_ProjectMembers_Projects" FromRole="ProjectMembers" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectKey" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="RowVersion" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Boards" Relationship="Self.FK_Boards_Projects" FromRole="Projects" ToRole="Boards" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_Issues_Projects" FromRole="Projects" ToRole="Issues" />
+          <NavigationProperty Name="Labels" Relationship="Self.FK_Labels_Projects" FromRole="Projects" ToRole="Labels" />
+          <NavigationProperty Name="ProjectActivity" Relationship="Self.FK_ProjectActivity_Projects" FromRole="Projects" ToRole="ProjectActivity" />
+          <NavigationProperty Name="ProjectInvitations" Relationship="Self.FK_ProjectInvitations_Projects" FromRole="Projects" ToRole="ProjectInvitations" />
+          <NavigationProperty Name="ProjectIssueCounters" Relationship="Self.FK_ProjectIssueCounters_Projects" FromRole="Projects" ToRole="ProjectIssueCounters" />
+          <NavigationProperty Name="ProjectMembers" Relationship="Self.FK_ProjectMembers_Projects" FromRole="Projects" ToRole="ProjectMembers" />
+          <NavigationProperty Name="ProjectSettings" Relationship="Self.FK_ProjectSettings_Projects" FromRole="Projects" ToRole="ProjectSettings" />
+          <NavigationProperty Name="WorkflowTransitions" Relationship="Self.FK_WorkflowTransitions_Projects" FromRole="Projects" ToRole="WorkflowTransitions" />
+        </EntityType>
+        <EntityType Name="ProjectSettings">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="AllowIssueCreation" Type="Boolean" Nullable="false" />
+          <Property Name="AllowAttachments" Type="Boolean" Nullable="false" />
+          <Property Name="EnableSprints" Type="Boolean" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_ProjectSettings_Projects" FromRole="ProjectSettings" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="SprintIssues">
+          <Key>
+            <PropertyRef Name="SprintIssueId" />
+          </Key>
+          <Property Name="SprintIssueId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="SprintId" Type="Int32" Nullable="false" />
+          <Property Name="IssueId" Type="Int64" Nullable="false" />
+          <Property Name="AddedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Issues" Relationship="JiraCloneDBModel.FK_SprintIssues_Issues_EF6" FromRole="SprintIssues" ToRole="Issues" />
+          <NavigationProperty Name="Sprints" Relationship="JiraCloneDBModel.FK_SprintIssues_Sprints_EF6" FromRole="SprintIssues" ToRole="Sprints" />
+        </EntityType>
+        <EntityType Name="Sprints">
+          <Key>
+            <PropertyRef Name="SprintId" />
+          </Key>
+          <Property Name="SprintId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="BoardId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Goal" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="StartedAt" Type="DateTime" Precision="3" />
+          <Property Name="CompletedAt" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RowVersion" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Boards" Relationship="JiraCloneDBModel.FK_Sprints_Boards_EF6" FromRole="Sprints" ToRole="Boards" />
+          <NavigationProperty Name="SprintIssues" Relationship="JiraCloneDBModel.FK_SprintIssues_Sprints_EF6" FromRole="Sprints" ToRole="SprintIssues" />
+        </EntityType>
+        <EntityType Name="WorkflowStatuses">
+          <Key>
+            <PropertyRef Name="WorkflowStatusId" />
+          </Key>
+          <Property Name="WorkflowStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="StatusCategory" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Color" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BoardColumnStatuses" Relationship="Self.FK_BoardColumnStatuses_WorkflowStatuses" FromRole="WorkflowStatuses" ToRole="BoardColumnStatuses" />
+          <NavigationProperty Name="Issues" Relationship="Self.FK_Issues_WorkflowStatuses" FromRole="WorkflowStatuses" ToRole="Issues" />
+          <NavigationProperty Name="WorkflowTransitions" Relationship="Self.FK_WorkflowTransitions_FromStatus" FromRole="WorkflowStatuses" ToRole="WorkflowTransitions" />
+          <NavigationProperty Name="WorkflowTransitions1" Relationship="Self.FK_WorkflowTransitions_ToStatus" FromRole="WorkflowStatuses" ToRole="WorkflowTransitions" />
+        </EntityType>
+        <EntityType Name="WorkflowTransitions">
+          <Key>
+            <PropertyRef Name="WorkflowTransitionId" />
+          </Key>
+          <Property Name="WorkflowTransitionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="FromStatusId" Type="Int32" Nullable="false" />
+          <Property Name="ToStatusId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_WorkflowTransitions_Projects" FromRole="WorkflowTransitions" ToRole="Projects" />
+          <NavigationProperty Name="WorkflowStatuses" Relationship="Self.FK_WorkflowTransitions_FromStatus" FromRole="WorkflowTransitions" ToRole="WorkflowStatuses" />
+          <NavigationProperty Name="WorkflowStatuses1" Relationship="Self.FK_WorkflowTransitions_ToStatus" FromRole="WorkflowTransitions" ToRole="WorkflowStatuses" />
+        </EntityType>
+        <Association Name="FK_BoardColumns_Boards">
+          <End Role="Boards" Type="Self.Boards" Multiplicity="1" />
+          <End Role="BoardColumns" Type="Self.BoardColumns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boards">
+              <PropertyRef Name="BoardId" />
+            </Principal>
+            <Dependent Role="BoardColumns">
+              <PropertyRef Name="BoardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoardColumnStatuses_WorkflowStatuses">
+          <End Role="WorkflowStatuses" Type="Self.WorkflowStatuses" Multiplicity="1" />
+          <End Role="BoardColumnStatuses" Type="Self.BoardColumnStatuses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowStatuses">
+              <PropertyRef Name="WorkflowStatusId" />
+            </Principal>
+            <Dependent Role="BoardColumnStatuses">
+              <PropertyRef Name="WorkflowStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Boards_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Boards" Type="Self.Boards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Boards">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueAttachments_Issues">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueAttachments" Type="Self.IssueAttachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueAttachments">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueComments_Issues">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueComments" Type="Self.IssueComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueComments">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueHistory_Issues">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueHistory" Type="Self.IssueHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueHistory">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_IssuePriorities">
+          <End Role="IssuePriorities" Type="Self.IssuePriorities" Multiplicity="1" />
+          <End Role="Issues" Type="Self.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IssuePriorities">
+              <PropertyRef Name="IssuePriorityId" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="IssuePriorityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueRelations_SourceIssue">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueRelations" Type="Self.IssueRelations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueRelations">
+              <PropertyRef Name="SourceIssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueRelations_TargetIssue">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueRelations" Type="Self.IssueRelations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueRelations">
+              <PropertyRef Name="TargetIssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_IssueTypes">
+          <End Role="IssueTypes" Type="Self.IssueTypes" Multiplicity="1" />
+          <End Role="Issues" Type="Self.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IssueTypes">
+              <PropertyRef Name="IssueTypeId" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="IssueTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Issues" Type="Self.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issues_WorkflowStatuses">
+          <End Role="WorkflowStatuses" Type="Self.WorkflowStatuses" Multiplicity="1" />
+          <End Role="Issues" Type="Self.Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowStatuses">
+              <PropertyRef Name="WorkflowStatusId" />
+            </Principal>
+            <Dependent Role="Issues">
+              <PropertyRef Name="WorkflowStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueWatchers_Issues">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueWatchers" Type="Self.IssueWatchers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueWatchers">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueWorkLogs_Issues">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="1" />
+          <End Role="IssueWorkLogs" Type="Self.IssueWorkLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueWorkLogs">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notifications_Issues">
+          <End Role="Issues" Type="Self.Issues" Multiplicity="0..1" />
+          <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="Notifications">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Labels_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Labels" Type="Self.Labels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Labels">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectActivity_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectActivity" Type="Self.ProjectActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectActivity">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectInvitations_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectInvitations" Type="Self.ProjectInvitations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectInvitations">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectIssueCounters_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectIssueCounters" Type="Self.ProjectIssueCounters" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectIssueCounters">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectMembers_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectMembers" Type="Self.ProjectMembers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectMembers">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectSettings_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectSettings" Type="Self.ProjectSettings" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectSettings">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowTransitions_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="WorkflowTransitions" Type="Self.WorkflowTransitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="WorkflowTransitions">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowTransitions_FromStatus">
+          <End Role="WorkflowStatuses" Type="Self.WorkflowStatuses" Multiplicity="1" />
+          <End Role="WorkflowTransitions" Type="Self.WorkflowTransitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowStatuses">
+              <PropertyRef Name="WorkflowStatusId" />
+            </Principal>
+            <Dependent Role="WorkflowTransitions">
+              <PropertyRef Name="FromStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowTransitions_ToStatus">
+          <End Role="WorkflowStatuses" Type="Self.WorkflowStatuses" Multiplicity="1" />
+          <End Role="WorkflowTransitions" Type="Self.WorkflowTransitions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowStatuses">
+              <PropertyRef Name="WorkflowStatusId" />
+            </Principal>
+            <Dependent Role="WorkflowTransitions">
+              <PropertyRef Name="ToStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="JiraCloneDBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BoardColumns" EntityType="Self.BoardColumns" />
+          <EntitySet Name="BoardColumnStatuses" EntityType="Self.BoardColumnStatuses" />
+          <EntitySet Name="Boards" EntityType="Self.Boards" />
+          <EntitySet Name="IssueAttachments" EntityType="Self.IssueAttachments" />
+          <EntitySet Name="IssueBoardPositions" EntityType="Self.IssueBoardPositions" />
+          <EntitySet Name="IssueComments" EntityType="Self.IssueComments" />
+          <EntitySet Name="IssueHistory" EntityType="Self.IssueHistory" />
+          <EntitySet Name="IssueLabels" EntityType="Self.IssueLabels" />
+          <EntitySet Name="IssuePriorities" EntityType="Self.IssuePriorities" />
+          <EntitySet Name="IssueRelations" EntityType="Self.IssueRelations" />
+          <EntitySet Name="Issues" EntityType="Self.Issues" />
+          <EntitySet Name="IssueTypes" EntityType="Self.IssueTypes" />
+          <EntitySet Name="IssueWatchers" EntityType="Self.IssueWatchers" />
+          <EntitySet Name="IssueWorkLogs" EntityType="Self.IssueWorkLogs" />
+          <EntitySet Name="Labels" EntityType="Self.Labels" />
+          <EntitySet Name="Notifications" EntityType="Self.Notifications" />
+          <EntitySet Name="ProjectActivity" EntityType="Self.ProjectActivity" />
+          <EntitySet Name="ProjectInvitations" EntityType="Self.ProjectInvitations" />
+          <EntitySet Name="ProjectIssueCounters" EntityType="Self.ProjectIssueCounters" />
+          <EntitySet Name="ProjectMembers" EntityType="Self.ProjectMembers" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" />
+          <EntitySet Name="ProjectSettings" EntityType="Self.ProjectSettings" />
+          <EntitySet Name="SprintIssues" EntityType="Self.SprintIssues" />
+          <EntitySet Name="Sprints" EntityType="Self.Sprints" />
+          <EntitySet Name="WorkflowStatuses" EntityType="Self.WorkflowStatuses" />
+          <EntitySet Name="WorkflowTransitions" EntityType="Self.WorkflowTransitions" />
+          <AssociationSet Name="FK_BoardColumns_Boards" Association="Self.FK_BoardColumns_Boards">
+            <End Role="Boards" EntitySet="Boards" />
+            <End Role="BoardColumns" EntitySet="BoardColumns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoardColumnStatuses_WorkflowStatuses" Association="Self.FK_BoardColumnStatuses_WorkflowStatuses">
+            <End Role="WorkflowStatuses" EntitySet="WorkflowStatuses" />
+            <End Role="BoardColumnStatuses" EntitySet="BoardColumnStatuses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Boards_Projects" Association="Self.FK_Boards_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Boards" EntitySet="Boards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueAttachments_Issues" Association="Self.FK_IssueAttachments_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueAttachments" EntitySet="IssueAttachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueComments_Issues" Association="Self.FK_IssueComments_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueComments" EntitySet="IssueComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueHistory_Issues" Association="Self.FK_IssueHistory_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueHistory" EntitySet="IssueHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_IssuePriorities" Association="Self.FK_Issues_IssuePriorities">
+            <End Role="IssuePriorities" EntitySet="IssuePriorities" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueRelations_SourceIssue" Association="Self.FK_IssueRelations_SourceIssue">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueRelations" EntitySet="IssueRelations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueRelations_TargetIssue" Association="Self.FK_IssueRelations_TargetIssue">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueRelations" EntitySet="IssueRelations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_IssueTypes" Association="Self.FK_Issues_IssueTypes">
+            <End Role="IssueTypes" EntitySet="IssueTypes" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_Projects" Association="Self.FK_Issues_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issues_WorkflowStatuses" Association="Self.FK_Issues_WorkflowStatuses">
+            <End Role="WorkflowStatuses" EntitySet="WorkflowStatuses" />
+            <End Role="Issues" EntitySet="Issues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueWatchers_Issues" Association="Self.FK_IssueWatchers_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueWatchers" EntitySet="IssueWatchers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueWorkLogs_Issues" Association="Self.FK_IssueWorkLogs_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueWorkLogs" EntitySet="IssueWorkLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifications_Issues" Association="Self.FK_Notifications_Issues">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="Notifications" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Labels_Projects" Association="Self.FK_Labels_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Labels" EntitySet="Labels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectActivity_Projects" Association="Self.FK_ProjectActivity_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectActivity" EntitySet="ProjectActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectInvitations_Projects" Association="Self.FK_ProjectInvitations_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectInvitations" EntitySet="ProjectInvitations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectIssueCounters_Projects" Association="Self.FK_ProjectIssueCounters_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectIssueCounters" EntitySet="ProjectIssueCounters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectMembers_Projects" Association="Self.FK_ProjectMembers_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectMembers" EntitySet="ProjectMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectSettings_Projects" Association="Self.FK_ProjectSettings_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectSettings" EntitySet="ProjectSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowTransitions_Projects" Association="Self.FK_WorkflowTransitions_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="WorkflowTransitions" EntitySet="WorkflowTransitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowTransitions_FromStatus" Association="Self.FK_WorkflowTransitions_FromStatus">
+            <End Role="WorkflowStatuses" EntitySet="WorkflowStatuses" />
+            <End Role="WorkflowTransitions" EntitySet="WorkflowTransitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowTransitions_ToStatus" Association="Self.FK_WorkflowTransitions_ToStatus">
+            <End Role="WorkflowStatuses" EntitySet="WorkflowStatuses" />
+            <End Role="WorkflowTransitions" EntitySet="WorkflowTransitions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoardColumnStatuses_BoardColumns_EF6" Association="JiraCloneDBModel.FK_BoardColumnStatuses_BoardColumns_EF6">
+            <End Role="BoardColumns" EntitySet="BoardColumns" />
+            <End Role="BoardColumnStatuses" EntitySet="BoardColumnStatuses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueBoardPositions_Boards_EF6" Association="JiraCloneDBModel.FK_IssueBoardPositions_Boards_EF6">
+            <End Role="Boards" EntitySet="Boards" />
+            <End Role="IssueBoardPositions" EntitySet="IssueBoardPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sprints_Boards_EF6" Association="JiraCloneDBModel.FK_Sprints_Boards_EF6">
+            <End Role="Boards" EntitySet="Boards" />
+            <End Role="Sprints" EntitySet="Sprints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueBoardPositions_Issues_EF6" Association="JiraCloneDBModel.FK_IssueBoardPositions_Issues_EF6">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueBoardPositions" EntitySet="IssueBoardPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueLabels_Issues_EF6" Association="JiraCloneDBModel.FK_IssueLabels_Issues_EF6">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="IssueLabels" EntitySet="IssueLabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueLabels_Labels_EF6" Association="JiraCloneDBModel.FK_IssueLabels_Labels_EF6">
+            <End Role="Labels" EntitySet="Labels" />
+            <End Role="IssueLabels" EntitySet="IssueLabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectActivity_Issues_EF6" Association="JiraCloneDBModel.FK_ProjectActivity_Issues_EF6">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="ProjectActivity" EntitySet="ProjectActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SprintIssues_Issues_EF6" Association="JiraCloneDBModel.FK_SprintIssues_Issues_EF6">
+            <End Role="Issues" EntitySet="Issues" />
+            <End Role="SprintIssues" EntitySet="SprintIssues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SprintIssues_Sprints_EF6" Association="JiraCloneDBModel.FK_SprintIssues_Sprints_EF6">
+            <End Role="Sprints" EntitySet="Sprints" />
+            <End Role="SprintIssues" EntitySet="SprintIssues" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_BoardColumnStatuses_BoardColumns_EF6">
+          <End Type="JiraCloneDBModel.BoardColumns" Role="BoardColumns" Multiplicity="1" />
+          <End Type="JiraCloneDBModel.BoardColumnStatuses" Role="BoardColumnStatuses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BoardColumns">
+              <PropertyRef Name="BoardColumnId" />
+            </Principal>
+            <Dependent Role="BoardColumnStatuses">
+              <PropertyRef Name="BoardColumnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueBoardPositions_Boards_EF6">
+          <End Type="JiraCloneDBModel.Boards" Role="Boards" Multiplicity="1" />
+          <End Type="JiraCloneDBModel.IssueBoardPositions" Role="IssueBoardPositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boards">
+              <PropertyRef Name="BoardId" />
+            </Principal>
+            <Dependent Role="IssueBoardPositions">
+              <PropertyRef Name="BoardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sprints_Boards_EF6">
+          <End Type="JiraCloneDBModel.Boards" Role="Boards" Multiplicity="1" />
+          <End Type="JiraCloneDBModel.Sprints" Role="Sprints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boards">
+              <PropertyRef Name="BoardId" />
+            </Principal>
+            <Dependent Role="Sprints">
+              <PropertyRef Name="BoardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueBoardPositions_Issues_EF6">
+          <End Type="JiraCloneDBModel.Issues" Role="Issues" Multiplicity="1" />
+          <End Type="JiraCloneDBModel.IssueBoardPositions" Role="IssueBoardPositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueBoardPositions">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueLabels_Issues_EF6">
+          <End Type="JiraCloneDBModel.Issues" Role="Issues" Multiplicity="1" />
+          <End Type="JiraCloneDBModel.IssueLabels" Role="IssueLabels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="IssueLabels">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueLabels_Labels_EF6">
+          <End Type="JiraCloneDBModel.Labels" Role="Labels" Multiplicity="1" />
+          <End Type="JiraCloneDBModel.IssueLabels" Role="IssueLabels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Labels">
+              <PropertyRef Name="LabelId" />
+            </Principal>
+            <Dependent Role="IssueLabels">
+              <PropertyRef Name="LabelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectActivity_Issues_EF6">
+          <End Type="JiraCloneDBModel.Issues" Role="Issues" Multiplicity="0..1" />
+          <End Type="JiraCloneDBModel.ProjectActivity" Role="ProjectActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="ProjectActivity">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SprintIssues_Issues_EF6">
+          <End Type="JiraCloneDBModel.Issues" Role="Issues" Multiplicity="1" />
+          <End Type="JiraCloneDBModel.SprintIssues" Role="SprintIssues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="SprintIssues">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SprintIssues_Sprints_EF6">
+          <End Type="JiraCloneDBModel.Sprints" Role="Sprints" Multiplicity="1" />
+          <End Type="JiraCloneDBModel.SprintIssues" Role="SprintIssues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sprints">
+              <PropertyRef Name="SprintId" />
+            </Principal>
+            <Dependent Role="SprintIssues">
+              <PropertyRef Name="SprintId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="JiraCloneDBModelStoreContainer" CdmEntityContainer="JiraCloneDBEntities1">
+          <EntitySetMapping Name="BoardColumns">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.BoardColumns">
+              <MappingFragment StoreEntitySet="BoardColumns">
+                <ScalarProperty Name="BoardColumnId" ColumnName="BoardColumnId" />
+                <ScalarProperty Name="BoardId" ColumnName="BoardId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="WipLimit" ColumnName="WipLimit" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BoardColumnStatuses">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.BoardColumnStatuses">
+              <MappingFragment StoreEntitySet="BoardColumnStatuses">
+                <ScalarProperty Name="BoardColumnStatusId" ColumnName="BoardColumnStatusId" />
+                <ScalarProperty Name="BoardId" ColumnName="BoardId" />
+                <ScalarProperty Name="BoardColumnId" ColumnName="BoardColumnId" />
+                <ScalarProperty Name="WorkflowStatusId" ColumnName="WorkflowStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Boards">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.Boards">
+              <MappingFragment StoreEntitySet="Boards">
+                <ScalarProperty Name="BoardId" ColumnName="BoardId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="BoardType" ColumnName="BoardType" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueAttachments">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.IssueAttachments">
+              <MappingFragment StoreEntitySet="IssueAttachments">
+                <ScalarProperty Name="IssueAttachmentId" ColumnName="IssueAttachmentId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="UploadedByUserId" ColumnName="UploadedByUserId" />
+                <ScalarProperty Name="OriginalFileName" ColumnName="OriginalFileName" />
+                <ScalarProperty Name="StoredFileName" ColumnName="StoredFileName" />
+                <ScalarProperty Name="StoragePath" ColumnName="StoragePath" />
+                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+                <ScalarProperty Name="FileSizeBytes" ColumnName="FileSizeBytes" />
+                <ScalarProperty Name="FileHashSHA256" ColumnName="FileHashSHA256" />
+                <ScalarProperty Name="UploadedAt" ColumnName="UploadedAt" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueBoardPositions">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.IssueBoardPositions">
+              <MappingFragment StoreEntitySet="IssueBoardPositions">
+                <ScalarProperty Name="IssueBoardPositionId" ColumnName="IssueBoardPositionId" />
+                <ScalarProperty Name="BoardId" ColumnName="BoardId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueComments">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.IssueComments">
+              <MappingFragment StoreEntitySet="IssueComments">
+                <ScalarProperty Name="IssueCommentId" ColumnName="IssueCommentId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="AuthorUserId" ColumnName="AuthorUserId" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="IsEdited" ColumnName="IsEdited" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueHistory">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.IssueHistory">
+              <MappingFragment StoreEntitySet="IssueHistory">
+                <ScalarProperty Name="IssueHistoryId" ColumnName="IssueHistoryId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="ChangedByUserId" ColumnName="ChangedByUserId" />
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+                <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+                <ScalarProperty Name="ChangedAt" ColumnName="ChangedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueLabels">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.IssueLabels">
+              <MappingFragment StoreEntitySet="IssueLabels">
+                <ScalarProperty Name="IssueLabelId" ColumnName="IssueLabelId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="LabelId" ColumnName="LabelId" />
+                <ScalarProperty Name="AssignedAt" ColumnName="AssignedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssuePriorities">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.IssuePriorities">
+              <MappingFragment StoreEntitySet="IssuePriorities">
+                <ScalarProperty Name="IssuePriorityId" ColumnName="IssuePriorityId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PriorityLevel" ColumnName="PriorityLevel" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueRelations">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.IssueRelations">
+              <MappingFragment StoreEntitySet="IssueRelations">
+                <ScalarProperty Name="IssueRelationId" ColumnName="IssueRelationId" />
+                <ScalarProperty Name="SourceIssueId" ColumnName="SourceIssueId" />
+                <ScalarProperty Name="TargetIssueId" ColumnName="TargetIssueId" />
+                <ScalarProperty Name="RelationType" ColumnName="RelationType" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Issues">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.Issues">
+              <MappingFragment StoreEntitySet="Issues">
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="IssueNumber" ColumnName="IssueNumber" />
+                <ScalarProperty Name="IssueTypeId" ColumnName="IssueTypeId" />
+                <ScalarProperty Name="IssuePriorityId" ColumnName="IssuePriorityId" />
+                <ScalarProperty Name="WorkflowStatusId" ColumnName="WorkflowStatusId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ReporterUserId" ColumnName="ReporterUserId" />
+                <ScalarProperty Name="AssigneeUserId" ColumnName="AssigneeUserId" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CompletedAt" ColumnName="CompletedAt" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueTypes">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.IssueTypes">
+              <MappingFragment StoreEntitySet="IssueTypes">
+                <ScalarProperty Name="IssueTypeId" ColumnName="IssueTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueWatchers">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.IssueWatchers">
+              <MappingFragment StoreEntitySet="IssueWatchers">
+                <ScalarProperty Name="IssueWatcherId" ColumnName="IssueWatcherId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueWorkLogs">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.IssueWorkLogs">
+              <MappingFragment StoreEntitySet="IssueWorkLogs">
+                <ScalarProperty Name="IssueWorkLogId" ColumnName="IssueWorkLogId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TimeSpentMinutes" ColumnName="TimeSpentMinutes" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Labels">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.Labels">
+              <MappingFragment StoreEntitySet="Labels">
+                <ScalarProperty Name="LabelId" ColumnName="LabelId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.Notifications">
+              <MappingFragment StoreEntitySet="Notifications">
+                <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="NotificationType" ColumnName="NotificationType" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="ReadAt" ColumnName="ReadAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectActivity">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.ProjectActivity">
+              <MappingFragment StoreEntitySet="ProjectActivity">
+                <ScalarProperty Name="ProjectActivityId" ColumnName="ProjectActivityId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectInvitations">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.ProjectInvitations">
+              <MappingFragment StoreEntitySet="ProjectInvitations">
+                <ScalarProperty Name="ProjectInvitationId" ColumnName="ProjectInvitationId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="InvitedByUserId" ColumnName="InvitedByUserId" />
+                <ScalarProperty Name="InvitationToken" ColumnName="InvitationToken" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="ExpiresAt" ColumnName="ExpiresAt" />
+                <ScalarProperty Name="RespondedAt" ColumnName="RespondedAt" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectIssueCounters">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.ProjectIssueCounters">
+              <MappingFragment StoreEntitySet="ProjectIssueCounters">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="LastIssueNumber" ColumnName="LastIssueNumber" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectMembers">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.ProjectMembers">
+              <MappingFragment StoreEntitySet="ProjectMembers">
+                <ScalarProperty Name="ProjectMemberId" ColumnName="ProjectMemberId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProjectRole" ColumnName="ProjectRole" />
+                <ScalarProperty Name="JoinedAt" ColumnName="JoinedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.Projects">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ProjectKey" ColumnName="ProjectKey" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="OwnerUserId" ColumnName="OwnerUserId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectSettings">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.ProjectSettings">
+              <MappingFragment StoreEntitySet="ProjectSettings">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="AllowIssueCreation" ColumnName="AllowIssueCreation" />
+                <ScalarProperty Name="AllowAttachments" ColumnName="AllowAttachments" />
+                <ScalarProperty Name="EnableSprints" ColumnName="EnableSprints" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SprintIssues">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.SprintIssues">
+              <MappingFragment StoreEntitySet="SprintIssues">
+                <ScalarProperty Name="SprintIssueId" ColumnName="SprintIssueId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="SprintId" ColumnName="SprintId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="AddedAt" ColumnName="AddedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sprints">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.Sprints">
+              <MappingFragment StoreEntitySet="Sprints">
+                <ScalarProperty Name="SprintId" ColumnName="SprintId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="BoardId" ColumnName="BoardId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Goal" ColumnName="Goal" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartedAt" ColumnName="StartedAt" />
+                <ScalarProperty Name="CompletedAt" ColumnName="CompletedAt" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkflowStatuses">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.WorkflowStatuses">
+              <MappingFragment StoreEntitySet="WorkflowStatuses">
+                <ScalarProperty Name="WorkflowStatusId" ColumnName="WorkflowStatusId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusCategory" ColumnName="StatusCategory" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkflowTransitions">
+            <EntityTypeMapping TypeName="JiraCloneDBModel.WorkflowTransitions">
+              <MappingFragment StoreEntitySet="WorkflowTransitions">
+                <ScalarProperty Name="WorkflowTransitionId" ColumnName="WorkflowTransitionId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="FromStatusId" ColumnName="FromStatusId" />
+                <ScalarProperty Name="ToStatusId" ColumnName="ToStatusId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
