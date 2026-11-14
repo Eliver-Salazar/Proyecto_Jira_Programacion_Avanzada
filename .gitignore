@@ -25,3 +25,6 @@ packages/
 .env
 .env.*
 !.env.example
+
+# Conexiones específicas de cada computadora.
+**/ConnectionStrings.local.config
