@@ -42,7 +42,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DTOs\Boards\BoardSummaryDto.cs" />
+    <Compile Include="DTOs\Boards\CreateBoardRequest.cs" />
+    <Compile Include="DTOs\Comments\IssueCommentDto.cs" />
+    <Compile Include="DTOs\Common\PagedResult.cs" />
+    <Compile Include="DTOs\Issues\CreateIssueRequest.cs" />
+    <Compile Include="DTOs\Issues\IssueSummaryDto.cs" />
+    <Compile Include="Interfaces\IBoardService.cs" />
+    <Compile Include="Interfaces\IIssueCommentService.cs" />
+    <Compile Include="Interfaces\IIssueService.cs" />
+    <Compile Include="Interfaces\IIssueWorkflowService.cs" />
+    <Compile Include="Interfaces\IProjectAccessService.cs" />
+    <Compile Include="Interfaces\IProjectService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ProjectAccessService.cs" />
+    <Compile Include="Services\ProjectService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JiraClone_EF6.Domain\JiraClone_EF6.Domain.csproj">
@@ -50,5 +64,6 @@
       <Name>JiraClone_EF6.Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,62 @@
+﻿@model JiraClone_EF6.Web.ViewModels.Projects.ProjectCreateViewModel
+
+@{
+    ViewBag.Title = "Crear proyecto";
+}
+
+<div class="container py-4">
+    <h1>Crear proyecto</h1>
+
+    @using (Html.BeginForm("Create", "Projects", FormMethod.Post))
+    {
+        @* Protege el formulario contra solicitudes falsificadas. *@
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.ProjectKey,
+                     new { @class = "form-label" })
+
+            @Html.TextBoxFor(model => model.ProjectKey,
+                     new { @class = "form-control", maxlength = "20" })
+
+            <div class="form-text">
+                Ejemplo: APP. Se utilizará en identificadores como APP-1.
+            </div>
+
+            @Html.ValidationMessageFor(model => model.ProjectKey, "",
+                     new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Name,
+                     new { @class = "form-label" })
+
+            @Html.TextBoxFor(model => model.Name,
+                     new { @class = "form-control", maxlength = "150" })
+
+            @Html.ValidationMessageFor(model => model.Name, "",
+                     new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Description,
+                     new { @class = "form-label" })
+
+            @Html.TextAreaFor(model => model.Description,
+                     new { @class = "form-control", rows = "4", maxlength = "1000" })
+
+            @Html.ValidationMessageFor(model => model.Description, "",
+                     new { @class = "text-danger" })
+        </div>
+
+        <button type="submit" class="btn btn-primary">Crear proyecto</button>
+
+        @Html.ActionLink("Cancelar", "Index", null,
+                 new { @class = "btn btn-outline-secondary" })
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
