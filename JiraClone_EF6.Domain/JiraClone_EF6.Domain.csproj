@@ -42,7 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Exceptions\DuplicateProjectKeyException.cs" />
+    <Compile Include="Interfaces\IProjectAccessRepository.cs" />
     <Compile Include="Interfaces\IProjectRepository.cs" />
+    <Compile Include="Models\CreateProjectRequest.cs" />
     <Compile Include="Models\ProjectSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
