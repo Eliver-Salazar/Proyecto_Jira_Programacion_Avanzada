@@ -48,6 +48,26 @@ namespace JiraClone_EF6.Web
                 .As<IProjectService>()
                 .InstancePerRequest();
 
+            // Módulo de tareas (Carlos): repositorios.
+            builder.RegisterType<IssueRepository>()
+                .As<IIssueRepository>()
+                .InstancePerRequest();
+
+            builder.RegisterType<IssueCatalogRepository>()
+                .As<IIssueCatalogRepository>()
+                .InstancePerRequest();
+
+            // Módulo de tareas (Carlos): consultas, creación y transiciones.
+            // IIssueWorkflowService también lo consume el módulo de tableros.
+            builder.RegisterType<IssueService>()
+                .As<IIssueService>()
+                .As<IIssueReadService>()
+                .InstancePerRequest();
+
+            builder.RegisterType<IssueWorkflowService>()
+                .As<IIssueWorkflowService>()
+                .InstancePerRequest();
+
             // Identity continúa administrado mediante OWIN.
             var container = builder.Build();
 

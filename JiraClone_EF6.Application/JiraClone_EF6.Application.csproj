@@ -48,6 +48,13 @@
     <Compile Include="DTOs\Common\PagedResult.cs" />
     <Compile Include="DTOs\Issues\CreateIssueRequest.cs" />
     <Compile Include="DTOs\Issues\IssueSummaryDto.cs" />
+    <Compile Include="DTOs\Issues\IssueDetailsDto.cs" />
+    <Compile Include="DTOs\Issues\IssueFormOptionsDto.cs" />
+    <Compile Include="DTOs\Issues\LookupItemDto.cs" />
+    <Compile Include="DTOs\Issues\ProjectMemberDto.cs" />
+    <Compile Include="Interfaces\IIssueReadService.cs" />
+    <Compile Include="Services\IssueService.cs" />
+    <Compile Include="Services\IssueWorkflowService.cs" />
     <Compile Include="Interfaces\IBoardService.cs" />
     <Compile Include="Interfaces\IIssueCommentService.cs" />
     <Compile Include="Interfaces\IIssueService.cs" />

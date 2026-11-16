@@ -43,6 +43,15 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Exceptions\DuplicateProjectKeyException.cs" />
+    <Compile Include="Exceptions\IssueNotFoundException.cs" />
+    <Compile Include="Exceptions\IssueRuleException.cs" />
+    <Compile Include="Interfaces\IIssueCatalogRepository.cs" />
+    <Compile Include="Interfaces\IIssueRepository.cs" />
+    <Compile Include="Models\IssueDetails.cs" />
+    <Compile Include="Models\IssueSummary.cs" />
+    <Compile Include="Models\LookupItem.cs" />
+    <Compile Include="Models\NewIssueData.cs" />
+    <Compile Include="Models\ProjectMemberItem.cs" />
     <Compile Include="Interfaces\IProjectAccessRepository.cs" />
     <Compile Include="Interfaces\IProjectRepository.cs" />
     <Compile Include="Models\CreateProjectRequest.cs" />

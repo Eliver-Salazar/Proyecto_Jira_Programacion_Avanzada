@@ -32,6 +32,9 @@ namespace JiraClone_EF6.Application.Interfaces
         // Requiere CanWriteAsync y AllowIssueCreation.
         // La implementación debe invocar dbo.usp_CreateIssue.
         // Devuelve la tarea creada, incluyendo su identificador calculado.
+        // WorkflowStatusId debe ser un estado activo de categoría TODO
+        // (estado inicial); si es 0 se usa el primer estado TODO activo.
+        // Otro estado produce ArgumentException.
         Task<IssueSummaryDto> CreateAsync(
             CreateIssueRequest request,
             string userId);

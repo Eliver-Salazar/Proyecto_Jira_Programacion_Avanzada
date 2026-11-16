@@ -1,0 +1,95 @@
+﻿@model JiraClone_EF6.Web.ViewModels.Issues.IssueCreateViewModel
+
+@{
+    ViewBag.Title = "Crear tarea";
+}
+
+<div class="container py-4">
+    <h1>
+        Crear tarea
+        <small class="text-muted">@Model.ProjectKey · @Model.ProjectName</small>
+    </h1>
+
+    @using (Html.BeginForm("Create", "Issues", FormMethod.Post))
+    {
+        @* Protege el formulario contra solicitudes falsificadas. *@
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @* El servicio vuelve a comprobar el permiso sobre este proyecto. *@
+        @Html.HiddenFor(model => model.ProjectId)
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Title, new { @class = "form-label" })
+            @Html.TextBoxFor(model => model.Title,
+                     new { @class = "form-control", maxlength = "250" })
+            @Html.ValidationMessageFor(model => model.Title, "",
+                     new { @class = "text-danger" })
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                @Html.LabelFor(model => model.IssueTypeId, new { @class = "form-label" })
+                @Html.DropDownListFor(model => model.IssueTypeId, Model.IssueTypes,
+                         "Seleccione...", new { @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.IssueTypeId, "",
+                         new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-4 mb-3">
+                @Html.LabelFor(model => model.WorkflowStatusId, new { @class = "form-label" })
+                @Html.DropDownListFor(model => model.WorkflowStatusId, Model.Statuses,
+                         new { @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.WorkflowStatusId, "",
+                         new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-4 mb-3">
+                @Html.LabelFor(model => model.IssuePriorityId, new { @class = "form-label" })
+                @Html.DropDownListFor(model => model.IssuePriorityId, Model.Priorities,
+                         "Seleccione...", new { @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.IssuePriorityId, "",
+                         new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Description, new { @class = "form-label" })
+            @Html.TextAreaFor(model => model.Description,
+                     new { @class = "form-control", rows = "5", maxlength = "4000" })
+            @Html.ValidationMessageFor(model => model.Description, "",
+                     new { @class = "text-danger" })
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                @Html.LabelFor(model => model.AssigneeUserId, new { @class = "form-label" })
+                @Html.DropDownListFor(model => model.AssigneeUserId, Model.Members,
+                         "Sin asignar", new { @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.AssigneeUserId, "",
+                         new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6 mb-3">
+                @Html.LabelFor(model => model.DueDate, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.DueDate, "{0:yyyy-MM-dd}",
+                         new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(model => model.DueDate, "",
+                         new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-text mb-3">
+            Solo se permiten estados iniciales (categoría pendiente).
+        </div>
+
+        <button type="submit" class="btn btn-primary">Crear tarea</button>
+
+        @Html.ActionLink("Cancelar", "Index", new { projectId = Model.ProjectId },
+                 new { @class = "btn btn-outline-secondary" })
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
