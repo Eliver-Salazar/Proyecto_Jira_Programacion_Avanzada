@@ -1,0 +1,90 @@
+﻿@model JiraClone_EF6.Web.ViewModels.Issues.IssueIndexViewModel
+
+@{
+    ViewBag.Title = "Tareas";
+}
+
+@* Razor codifica todo el texto del usuario; no se usa Html.Raw. *@
+
+<div class="container py-4">
+    <p>
+        @Html.ActionLink("Volver al proyecto", "Details", "Projects",
+                 new { id = Model.ProjectId }, null)
+    </p>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>
+            Tareas
+            <small class="text-muted">@Model.ProjectKey · @Model.ProjectName</small>
+        </h1>
+
+        @if (Model.CanWrite)
+        {
+            @Html.ActionLink("Crear tarea", "Create",
+                     new { projectId = Model.ProjectId },
+                     new { @class = "btn btn-primary" })
+        }
+    </div>
+
+    @if (Model.Issues.Count == 0)
+    {
+        <div class="alert alert-info">
+            No hay tareas para mostrar en esta página.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Clave</th>
+                        <th>Título</th>
+                        <th>Tipo</th>
+                        <th>Prioridad</th>
+                        <th>Estado</th>
+                        <th>Responsable</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var issue in Model.Issues)
+                    {
+                        <tr>
+                            <td>@issue.IssueKey</td>
+                            <td>@issue.Title</td>
+                            <td>@issue.TypeName</td>
+                            <td>@issue.PriorityName</td>
+                            <td><span class="badge bg-secondary">@issue.StatusName</span></td>
+                            <td>@issue.AssigneeName</td>
+                            <td>
+                                @Html.ActionLink("Ver detalle", "Details",
+                                         new { id = issue.IssueId, projectId = Model.ProjectId },
+                                         new { @class = "btn btn-outline-primary btn-sm" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    @* Paginación de 20 tareas por página. *@
+    <div class="d-flex gap-3 align-items-center">
+        @if (Model.Page > 1)
+        {
+            @Html.ActionLink("Anterior", "Index",
+                     new { projectId = Model.ProjectId, page = Model.Page - 1 },
+                     new { @class = "btn btn-outline-secondary" })
+        }
+
+        <span>Página @Model.Page</span>
+
+        @if (Model.HasNextPage)
+        {
+            @Html.ActionLink("Siguiente", "Index",
+                     new { projectId = Model.ProjectId, page = Model.Page + 1 },
+                     new { @class = "btn btn-outline-secondary" })
+        }
+    </div>
+</div>

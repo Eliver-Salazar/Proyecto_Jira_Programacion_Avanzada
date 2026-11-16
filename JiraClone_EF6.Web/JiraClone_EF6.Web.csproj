@@ -201,6 +201,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\IssuesController.cs" />
     <Compile Include="Filters\NoStoreAuthenticatedAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -218,6 +219,10 @@
     <Compile Include="ViewModels\Projects\ProjectCreateViewModel.cs" />
     <Compile Include="ViewModels\Projects\ProjectDetailsViewModel.cs" />
     <Compile Include="ViewModels\Projects\ProjectIndexViewModel.cs" />
+    <Compile Include="ViewModels\Issues\IssueCreateViewModel.cs" />
+    <Compile Include="ViewModels\Issues\IssueDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Issues\IssueIndexViewModel.cs" />
+    <Compile Include="ViewModels\Issues\IssueListItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -293,6 +298,9 @@
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Projects\Create.cshtml" />
+    <Content Include="Views\Issues\Index.cshtml" />
+    <Content Include="Views\Issues\Create.cshtml" />
+    <Content Include="Views\Issues\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
