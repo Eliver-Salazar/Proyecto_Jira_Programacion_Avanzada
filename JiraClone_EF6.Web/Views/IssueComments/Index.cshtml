@@ -1,0 +1,55 @@
+@model JiraClone_EF6.Web.ViewModels.Comments.IssueCommentsViewModel
+@{
+    ViewBag.Title = "Comentarios de la tarea";
+}
+<div class="container">
+    <h2>Comentarios de la tarea #@Model.IssueId</h2>
+    <p>@Html.ActionLink("Volver a proyectos", "Index", "Projects")</p>
+    @if (TempData["CommentError"] != null)
+    {
+        <div class="alert alert-warning">@TempData["CommentError"]</div>
+    }
+    @if (Model.Comments.Count == 0)
+    {
+        <p>Esta tarea todavía no tiene comentarios en esta página.</p>
+    }
+    @foreach (var comment in Model.Comments)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Usuario:</strong> @comment.AuthorUserId
+            <span class="text-muted"> - @comment.CreatedAt.ToString("yyyy-MM-dd HH:mm") UTC</span>
+                @if (comment.IsEdited)
+                {<span>(editado)</span>}
+            </div>
+            <div class="panel-body" style="white-space:pre-wrap">@comment.Content</div>
+        </div>
+    }
+    <nav aria-label="Páginas de comentarios">
+        @if (Model.Page > 1)
+        {
+            @Html.ActionLink("Anterior", "Index", new { projectId = Model.ProjectId, issueId = Model.IssueId, page = Model.Page - 1 }, new { @class = "btn btn-default" })
+        }
+        @if (Model.HasNextPage)
+        {
+            @Html.ActionLink("Siguiente", "Index", new { projectId = Model.ProjectId, issueId = Model.IssueId, page = Model.Page + 1 }, new { @class = "btn btn-default" })
+        }
+    </nav>
+    @if (Model.CanWrite)
+    {
+        <hr />
+        <h3>Agregar comentario</h3>
+        using (Html.BeginForm("Add", "IssueComments", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ProjectId)
+            @Html.HiddenFor(m => m.IssueId)
+            <div class="form-group">
+                @Html.LabelFor(m => m.Content)
+                @Html.TextAreaFor(m => m.Content, new { @class = "form-control", rows = 4, maxlength = 10000 })
+                @Html.ValidationMessageFor(m => m.Content)
+            </div>
+            <button type="submit" class="btn btn-primary">Publicar comentario</button>
+        }
+    }
+</div>

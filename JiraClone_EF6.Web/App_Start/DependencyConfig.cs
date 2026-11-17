@@ -48,6 +48,16 @@ namespace JiraClone_EF6.Web
                 .As<IProjectService>()
                 .InstancePerRequest();
 
+            // Repositorio del módulo de comentarios.
+            builder.RegisterType<IssueCommentRepository>()
+                .As<IIssueCommentRepository>()
+                .InstancePerRequest();
+
+            // Servicio del módulo de comentarios.
+            builder.RegisterType<IssueCommentService>()
+                .As<IIssueCommentService>()
+                .InstancePerRequest();
+
             // Identity continúa administrado mediante OWIN.
             var container = builder.Build();
 
